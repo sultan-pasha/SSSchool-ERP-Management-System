@@ -1,0 +1,97 @@
+body {
+  background-image: url("../deb/media/imgs/signlogin.png") !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+body #SignForm {
+  margin: 6vh auto;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  width: 700px;
+}
+body #SignForm .sign {
+  color: white;
+  background-color: rgba(34, 50, 82, 0.5019607843);
+  padding: 5% 3% 0;
+  border-radius: 16px;
+}
+body #SignForm .sign .sign-form {
+  text-align: center;
+  display: flex;
+  gap: 2%;
+}
+body #SignForm .sign .sign-form .stborder {
+  text-align: center;
+}
+body #SignForm .sign .sign-form .stborder #profilepic {
+  border: none;
+  width: 18vh;
+}
+body #SignForm .sign .sign-form .stdata h3 {
+  text-align: left;
+  font-family: TitlesFont;
+}
+body #SignForm .sign .sign-form .stdata .pass-box {
+  display: flex;
+  gap: 5%;
+}
+body #SignForm .sign .sign-form input {
+  width: 100%;
+}
+body #SignForm .sign .bi-check2-circle::before {
+  position: absolute;
+  top: -6px;
+  font-size: 5em;
+  color: green;
+}
+body #SignForm .sign .bi-check2-circle {
+  transform: translate(70%, 30%);
+}
+body #SignForm .sign .sign-last {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+body #SignForm .sign .sign-last input {
+  width: 40%;
+  margin-bottom: 1%;
+}
+body #SignForm .sign .sign-last input::-webkit-inner-spin-button, body #SignForm .sign .sign-last input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+body #SignForm .stborder input, body #SignForm .stdata input, body #SignForm .sign-last input {
+  border: #8b8b89 solid 4px;
+  border-radius: 16px;
+  background-color: transparent;
+  color: white;
+  font-family: ParaFont;
+  font-size: 0.9em;
+  font-weight: bolder;
+  box-shadow: inset black -1px -1.5px, black -1px -1.5px;
+  padding: 2% 1%;
+}
+body #SignForm .stborder input::-moz-placeholder, body #SignForm .stdata input::-moz-placeholder, body #SignForm .sign-last input::-moz-placeholder {
+  color: white;
+}
+body #SignForm .stborder input::placeholder, body #SignForm .stdata input::placeholder, body #SignForm .sign-last input::placeholder {
+  color: white;
+}
+body #SignForm .sign-last input {
+  padding: 1%;
+}
+body #SignForm .hint, body #SignForm .whint {
+  color: black;
+  font-size: 12px;
+  font-family: ParaFont;
+  font-weight: bold;
+}
+body #SignForm .whint {
+  color: white !important;
+}
+@media screen and (max-width: 378px) {
+  body .pass-box {
+    display: initial !important;
+  }
+}

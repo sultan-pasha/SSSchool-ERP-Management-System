@@ -1,0 +1,68 @@
+aapl = []
+    var lastmon = ""
+    {% if rep.rep.homerport.all %}
+        lastmon = "{{ rep.homerport.first.lesson.date }}".split(" ")[1].slice(0,-1)
+    {% endif %}
+    {% for homerep in rep.homerport.all %}
+      mon = "{{ homerep.lesson.date }}"
+      aapl.push({Month: mon.split(" ")[1].slice(0,-1), Score: {{ homerep.presentage }} })
+    {% endfor %}
+    {% for examrep in rep.examReport.all %}
+      mon = "{{ examrep.exam.publishAt }}"
+      aapl.push({Month: mon.split(" ")[0], Score: {{ examrep.presentage }} })
+    {% endfor %}
+
+  const chart = Plot.plot({
+          x: {
+              label: '',
+              domain: [
+                  'يناير',
+                  'فبراير',
+                  'مارس',
+                  'ابريل',
+                  'مايو',
+                  'يونيو',
+                  'يوليو',
+                  'أغسطس',
+                  'سبتمبر',
+                  'أكتوبر',
+                  'نوفمبر',
+                  'ديسمبر',
+              ],
+          },
+          y: { grid: !0, label: '', domain: [0, 100], ticks: 10 },
+          marks: [
+              Plot.ruleY([0]),
+              Plot.areaY(aapl, {
+                  x: 'Month',
+                  y: 'Score',
+                  fillOpacity: 0.7,
+                  fill: '#3a5a97b5',
+                  curve: 'bump-x',
+              }),
+              Plot.lineY(aapl, {
+                  x: 'Month',
+                  y: 'Score',
+                  stroke: '#3a5a97b5',
+                  width: 100,
+                  curve: 'bump-x',
+                  strokeWidth: 5,
+                  basis: 'mean',
+                  marker: 'circle-stroke',
+                  tip: !0,
+              }),
+              Plot.crosshair(aapl, { x: 'Month', y: 'Score' }),
+          ],
+      }),
+      div = document.querySelector('#chart'),
+      area = (div.append(chart), document.querySelector("g[aria-label='area']")),
+      line = document.querySelector("g[aria-label='line']");
+      setTimeout(() => {
+          (area.style.opacity = '1'), (area.style.transform = 'scaleX(1) scaleY(1)');
+      }, 500),
+          setTimeout(() => {
+              (area.style.opacity = '1'),
+                  (line.style.transform = 'scaleX(1) scaleY(1)');
+          }, 800);
+
+

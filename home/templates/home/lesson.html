@@ -1,0 +1,80 @@
+{% extends 'index.html' %}
+{% load static %}
+<title>
+  {% block title %}
+  منصة ساكاد | محاضره {{ lesson.name }}
+  {% endblock title %}
+</title>
+{% block main %}
+  {% if lesson %}
+    {% if lesson.LYoutube or lesson.video %}
+      <div class="lesson">
+        <div class="lesson-info">
+          <h1>المحاضره رقم {{ lesson.id }}</h1>
+          <hr>
+          {% if lesson.LYoutube  %}
+          <iframe
+            oncontextmenu="return false;"
+            id="lectvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            src=""
+            sandbox="allow-forms allow-scripts allow-pointer-lock allow-same-origin allow-top-navigation">
+          </iframe>
+            {% else %}
+              {% if lesson.video %}
+                <video controlsList="nodownload" oncontextmenu="return false;" autoplay id="lessonvideo" controls {% if lesson.limg %} poster="{{ lesson.limg.url }}" {% else %} {% endif %} preload>
+                  <source src="{{ lesson.video.url }}" type="video/mp4">
+                  <source src="{{ lesson.video.url }}" type="video/mp4">
+                  Your browser does not support the video element.
+                </video>
+              {% endif %}
+          {% endif %}
+        </div>
+      </div>
+      <hr style="height:10px; background-color:green;">
+      <div class="car-container row justify-content-center me-auto le">
+        <div class="mt-2 col-lg-5 col-11" id="card">
+            <a href="{% url 'task:homework' lesson.id %}"> 
+                <div class="card-data">
+                    <div class="card-data-right"> <img id="cardImg" src="{% if lesson.limg %} {{ lesson.limg.url }} {% else %} {% static './deb/media/imgs/match poster lesson.png' %} {% endif %}" width="100">
+                        <u>
+                            <h4>الواجب المنزلي علي {{ lesson.name }}</h4>
+                        </u>
+                    </div>
+                    <div class="card-actions">
+                        <h6 class="le-card-pup">{% if lesson.Lviews %}{{ lesson.Lviews }} {% else %} 0 {% endif %}<span class="bi bi-eye-fill"></span></h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+      </div>
+    {% else %}
+      <h2 class="alert alert-warning mt-5">عذراً لم يتم نشر محتوي المحاضره حتي الأن</h2>
+      
+      <a href="{% url 'home:lessons' lesson.catname.id %}">
+        <-- عوده للدرس</a>
+      </a>
+    {% endif %}
+  {% else %}
+    <div class="lesson">
+      <div class="lesson-info">
+        <h1 style="color:red">نأسف لا يمكننا عرض هذه المحاضره</h1>
+        <hr>
+        <h3>سيكون بإمكانك مشاهدتها بعد إعادة شحن رصيدك او طلب الإشتراك بالكورس</h3>
+        <a class="btn btn-outline-success" href={% url 'pay:pay' %}>أشحن الأن</a>
+        <a class="btn btn-outline-success" href={% url "coaches:coach" cat.CCoach.id %}>اشترك بالكورس</a>
+      </div>
+    </div>
+    </div>
+  {% endif %}
+{% endblock main %}
+
+{% block spstyle %}
+<script>
+window.addEventListener("load", function(){
+  var lectvid = document.getElementById('lectvideo'); 
+  lectvid.setAttribute('src', 'https://www.youtube.com/embed/{{ lesson.LYoutube }}?rel=0&controls=1&color=white');
+});
+</script>
+{% endblock spstyle %}

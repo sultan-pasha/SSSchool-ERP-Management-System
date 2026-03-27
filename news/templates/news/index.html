@@ -1,0 +1,245 @@
+{% load static %}
+<!DOCTYPE html>
+<title>
+  {% block title %}
+  منصة ساكاد | الرئيسيه
+  {% endblock title %}
+</title>
+{% block head %}
+  {% include './compindex/head.html' %}
+  {% block spstyle %}
+  {% endblock spstyle %}
+{% endblock head %}
+</head>
+<body>
+  {% if user.is_staff %}
+    {% block test %} <center><h1 class="alert alert-info">أنت تشاهد وضع تجريبي كطالب </h1></center> {% endblock test %}
+  {% endif %}
+    {% block nav %}
+      {% include './compindex/nav.html' with link="reports:report" %}
+    {% endblock nav %}
+    <div class="container">
+      {% if messages %}
+        {% for message in messages %}
+        <div {% if message.tags %} {% if message.tags == "error" %} class="message alert alert-danger" {% endif %} class="message alert alert-{{ message.tags }}" {% endif %} >{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+      <div class="main">
+    {% block main %}
+    <div class="index-container">
+      <div class="common-box">
+        <div class="materials-box mt-5">
+          <div class="index-box-head">
+            <h2>المواد الدراسيه</h2><a href="{% url "home:home" %}">
+              <h6>عرض الكل</h6></a>
+          </div>
+          <div class="materials row">
+            {% if cats %}
+              {% for cats in cats %}
+                <div class="col-5" id="materialBox">
+                  <a href="{{ cats.get_absolute_url }}">
+                    <div class="mat-head"> 
+                      <div class="matinfo"> 
+                        <h2>{{ cats.name }}</h2>
+                        <img src="{% if cats.cimage %}{{ cats.cimage.url }}{% else %}https://img.freepik.com/free-vector/hand-drawn-science-education-background_23-2148494234.jpg{% endif %}" alt="">
+                      </div>
+                    </div>
+                    <div class="rate">
+                        {% for x in cats.Crate %}
+                          <i class="bi bi-star-fill"></i>
+                        {% endfor %}
+                    </div>
+                    <div class="matinfo"> 
+                      <h5 class="me-3">التقدم<span class="rate{{ cats.id }}">  </span></h5>
+                      <div class="sas-progress sas-progress{{ cats.id }} me-3"> 
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {% endfor %}
+            {% else %}
+                <h2 class="alert alert-info">عذراً لا يوجد اي إشتراكات في الوقت الحالي</h2>
+            {% endif %}
+          </div>
+        </div>
+        <div class="tasks-box mt-5">
+          <h2>المهام اليوميه</h2>
+          <div class="tasks-table"> 
+            <div id="tasksList">
+              <table>
+                <thead> 
+                  <tr>
+                    <th>المهمه</th>
+                    <th>تم النشر</th>
+                    <th>المدرس</th>
+                  </tr>
+                </thead>
+                <tbody> 
+                  {% if nles %}
+                    {% for nles in nles %}
+                      <tr>
+                        <td> 
+                          <img id="taskImg" src="{% if nles.limg %} {{ nles.limg.url }} {% else %} https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcYqVcQ9PpKqD1y4iS5vIRkrrHB2IHi9jaIw&amp;s {% endif %}">
+                          <a href="{% url 'home:lesson' nles.id nles.catname.id %}">
+                            <div class="info"><i>درس {{ nles.name }}</i><br><i>{{ nles.Llevel }}</i></div>
+                          </a>
+                          </td>
+                        <td>منذ {{ nles.date|timesince|capfirst }}</td>
+                        <td> <a href="{% url "coaches:coach" nles.catname.CCoach.id %}">أ/ {{ nles.catname.CCoach }}</a></td>
+                      </tr>
+                    {% endfor %}
+                  {% endif %}
+                  {% if nwork %}
+                    {% for nwork in nwork %}
+                      <tr>
+                        <td> 
+                          <img id="taskImg" src="{% if nwork.limg %} {{ nwork.limg.url }} {% else %} https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcYqVcQ9PpKqD1y4iS5vIRkrrHB2IHi9jaIw&amp;s {% endif %}">
+                          <a href="{% url 'task:homework' nwork.id %}">
+                            <div class="info"><i>واجب {{ nwork.name }}</i><br><i>{{ nwork.LHlevel }}</i></div>
+                          </a>
+                          </td>
+                        <td>منذ {{ nwork.date|timesince|capfirst }}</td>
+                        <td> <a href="{% url "coaches:coach" nwork.catname.CCoach.id %}">أ/ {{ nwork.catname.CCoach }}</a></td>
+                      </tr>
+                    {% endfor %}
+                  {% endif %}
+                  {% if nex %}
+                    {% for nex in nex %}
+                      <tr>
+                        <td> 
+                          <img id="taskImg" src="{% if nex.eximg %} {{ nex.eximg.url }} {% elif nex.cat.cimage %} {{ nex.cat.cimage.url }} {% else %} https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcYqVcQ9PpKqD1y4iS5vIRkrrHB2IHi9jaIw&amp;s {% endif %}">
+                          <a href="{{ nex.get_absolute_url }}">
+                            <div class="info"><i>إمتحان {{ nex.title }}</i><br><i>{{ nex.levle }}</i></div>
+                          </a>
+                          </td>
+                        <td>منذ {{ nex.publishAt|timesince|capfirst }}</td>
+                        <td> <a href="{% url "coaches:coach" nex.cat.CCoach.id %}">أ/ {{ nex.cat.CCoach }}</a></td>
+                      </tr>
+                    {% endfor %}
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="status-box"> 
+        <div class="index-box-head">
+          <h3>حالة الطالب</h3>
+          <h6>خلال اخر عام</h6>
+        </div>
+        
+        <div id="chart"></div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
+        <center> 
+          <h6 >عام {% now "Y" %}</h6>
+        </center>
+        <div class="online-teach"> 
+          <div class="index-box-head">
+            <h3>افضل المدرسين</h3><a href="{% url "coaches:coaches" %}">
+              <h6>عرض الكل</h6></a>
+          </div>
+          <div id="honorWall">
+            <div class="honor-second-sec">
+              {% for co in co %}
+              <div id="profile"><a href="{% url "coaches:coach" co.id %}"><img id="profilepic" src="{% if co.Cimg %} {{ co.Cimg.url }} {% else %} https://images.unsplash.com/photo-1640951613773-54706e06851d?w=500&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHVzZXJ8ZW58MHx8MHx8fDA%3D {% endif %}" alt=""></a></div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="index-box-head mt-4">
+          <h3>الأكثر شيوعاً</h3>
+          <h6>الرائجه</h6>
+        </div>
+        <div class="offers-box"><br>
+          {% for news in news %}
+            <div id="courseadcard"> 
+              <div class="coursead-data">
+                
+                <div class="course-info">
+                  <h4 class="course-tag">{% if news.tags %}{{ news.tags }}{% else %}عام{% endif %}</h4>
+                </div>
+                <div class="coursead-ac"><img id="studentImg" src="{{ news.img.url }}" alt=""></div>
+              </div>
+              <div class="coursead-body mt-2">
+                <h6>{{ news.title }}</h6>
+                <h5>{{ news.detail }}</h5>
+              </div>
+              <div class="course-ad-bottom">
+                <div class="reactions"><a class="btn bi bi-clock"><i> منذ{{ news.pupAt|timesince|capfirst }}</i></a><a class="btn bi {% if news in cuser.likenews.all %} bi-hand-thumbs-up-fill {% else %} bi-hand-thumbs-up {% endif %}" href="{% url "news:likenews" news.id %}"><i> {{ news.likes }}</i></a></div><a class="joincourse btn" href="{% url "news:newdet" news.id %}">انضم الأن </a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endblock main %}
+  </div>
+  {% block script %}
+    <script src="{% static './deb/bootstrap/js/bootstrap.min.js' %}"> </script>
+    <script src="{% static './deb/bootstrap/js/bootstrap.esm.min.js' %}"></script>
+    <script src="{% static './js/action.js' %}"> </script>
+  {% endblock script %}
+  {% block spscript %}
+  <script>
+    var mainitem = document.querySelectorAll(".nav-item")[0]
+    mainitem.classList.add("nav-active")
+    {% for cats in cats %}
+      var watchedlescat = 0
+      var lescat = 0
+      {% for wated in cuser.watchedlecs.all %}
+        {% if wated.catname == cats %}
+          watchedlescat++
+        {% endif %}
+      {% endfor %}
+      {% for les in all %}
+        {% if les.catname == cats %}
+          lescat++
+        {% endif %}
+      {% endfor %}
+      var mat = document.querySelectorAll("#materialBox");
+      if(mat.length < 3){
+        mat.forEach(e => {
+          e.style.margin = "initial"
+        });
+      };
+      var percentage = (watchedlescat / lescat) * 100
+      var ratepart = document.querySelectorAll(".rate{{ cats.id }}")
+      var rate = percentage/100 * 5
+      if (isNaN(rate)) {
+        rate = 0
+      }
+      if (isNaN(percentage)) {
+        percentage = 0
+      }
+      var prog = document.getElementsByClassName("sas-progress{{ cats.id }}");
+      ratepart[0].innerHTML = percentage + "%";
+      for (let i = 0; i < rate.toFixed(0); i++) {
+        prog[0].innerHTML += "<div class='progress progress-active'></div>"
+      }
+
+      for (let i = 0; i < 5-rate.toFixed(0); i++) {
+        prog[0].innerHTML += "<div class='progress'></div>"
+      }
+      
+    {% endfor %}
+    var det = document.querySelectorAll(".coursead-body h5")
+    for (let i = 0; i < det.length; i++) {
+      var detreq = det[i].innerText.split(" ")
+      det[i].innerText = detreq[0]
+      for (let y = 1; y < 10; y++) {
+        det[i].innerText += " " + detreq[y]
+      }
+      if (detreq.length > 10) {
+        det[i].innerText += " .........."
+      }
+    }
+
+    {% include './compindex/chart.html' %}
+  </script>
+  {% endblock spscript %}
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block test %}{% endblock test %}
+{% block main %}
+    <header>
+        <h2 class="head-forms ht">تغيير كلمة المرور الخاصه بحسابك</h2>
+    </header>
+    <form id="forms" method="post">
+        {% csrf_token %}
+    {{ form }}
+        <button type="submit" class="btn btn-outline-danger text-light">تغيير</button>
+    </form>
+{% endblock main %}
+
+{% block spscript %}
+    <script>
+        window.addEventListener("load", function(){
+            document.querySelectorAll(".nav-link")[0].classList.remove("active");
+        });
+    </script>
+{% endblock spscript %}

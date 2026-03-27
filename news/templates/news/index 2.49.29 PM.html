@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<title>
+  {% block title %}
+  منصة ساكاد | الرئيسيه
+  {% endblock title %}
+</title>
+{% block head %}
+  {% include './compindex/head.html' %}
+  {% block spstyle %}
+    <link rel="stylesheet" href="{% static './news.css' %}">
+  {% endblock spstyle %}
+{% endblock head %}
+</head>
+<body>
+    {% block nav %}
+      {% include './compindex/nav.html' %}
+    {% endblock nav %}
+    <div class="container">
+      {% if user.is_staff %}
+        {% block test %} <h1 class="alert alert-info">انت تشاهد وضع تجريبي كطالب </h1> {% endblock test %}
+      {% endif %}
+      {% if messages %}
+        {% for message in messages %}
+        <div {% if message.tags %} {% if message.tags == "error" %} class="message alert alert-danger" {% endif %} class="message alert alert-{{ message.tags }}" {% endif %} >{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% block main %}
+      <header>
+        <h6>{% if user.is_staff %} {{user}} {% else %}  {{cuser}} {% endif %}</h6>
+        <h1 class="ht">
+          مرحبا بك   {% if user.is_staff and user.first_name%} يا {{user.first_name}} {% elif not user.is_staff %} يا {{cuser.Sfname}} {% endif %}  في منصة ساكاد التعليميه
+        </h1>
+      </header>
+      <div class="container">
+        <h1 id="divtitle">أخر الأخبار:</h1>
+        {% if news %}
+        <div class="newsplaceholder">
+          <div class="placeholder">
+            <div class="animated-background"></div>
+          </div>
+        </div>
+        
+        <div id="news-box">
+          <div class="row justify-content-center gap-5">
+            {% for news in news %}
+              <a href="{% url 'news:newdet' news.id %}" class="news col-sm-7 col-md-5 col-lg-4 mt-1">
+                <h2>{{ news.title }}</h2>
+                <img id="newsImg" src={{ news.img.url }} />
+                <p id={{ news.id }} class="news-det">{{ news.detail }}</p>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+
+          {% else %}
+
+        {% endif %}
+          <h1 id="divtitle">إختصارات:</h1>
+          <h2>المسارات :</h2>
+          {% if cats %}
+        <main class="center">
+          <div class="row justify-content-center gap-5">
+            {% for cat in cats %}
+              <a class="catlink col-md-3" style="background-image: url({% if not cat.cimage %} {% static './media/images/secback2.png' %} ) {% else %} {{ cat.cimage.url }} {% endif %}"  href="{% url 'home:lessons' cat.id %}">
+                <div>
+                  <h1 class="catname">{{ cat.name }}</h1>
+                </div>
+              </a>
+            {% endfor %}
+            </div>
+        </main>
+        {% else %}
+          <h2 class="alert alert-info">لم يتم نشر اي مسارات بعد</h2>
+      {% endif %}
+          {% if all %}
+          <hr style="height:5px;" class="bg-warning">
+            <h2>أخر المحاضرات :</h2>
+            <div class="row justify-content-center">
+                {% for all in all %}
+                <div class="col-md-4 sec">
+                    <a class="lec1" href="{% url 'home:lesson' all.id %}">
+                        <div class="lec" style="background-image: url({% if not all.limg %} {% static './media/images/secback3.png' %} {% else %} {{ all.limg.url }} {% endif %}) ">
+                        </div>
+                        <div class="lec-info">
+                            <h1 class="lecid">{{ all.id }}</h1>
+                            <p class="lecname" {% if all in cuser.watchedlecs.all %} style="color: red;" {% else %} style="color: black;" {% endif %}>{{ all.name }}</p>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <h2 class="alert alert-info">لم يتم نشر اي محاضرات بعد</h2>
+            {% endif %}
+      </div>
+
+      <hr style="height:5px;" class="bg-warning">
+      <h2>أخر الامتحانات:</h2>
+      {% if exams %}
+      <div class="row">
+          <ol class="list-group list-group-numbered col-md-12">
+              {% for exam in exams %}
+              <a class="exam-link" href="{% url 'task:exam' exam.id %}">
+                  <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                      <h3>{{ exam.title }}</h3>
+                      <span class="badge">{{ exam.publishAt }}</span>
+                  </li>
+              </a>
+              {% endfor %}
+      {% else %}
+      <div class="row">
+        <ol class="list-group list-group-numbered col-md-12">
+            <a href='#'>
+                <li
+                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <h1> لا يوجد امتحانات منشوره بعد</h1>
+                </li>
+            </a>
+            {% endif %}
+        </ol>
+
+    {% endblock main %}
+</div>
+</div>
+  {% comment %} <footer class="bg-dark">
+    <img id='footerLogo' src="{% static './media/images/secback.png' %}" alt="SACAD Logo">
+    <hr class="hr">
+      <div class="footer">
+        <div class="about mb-5">
+          <h2>عن منصة ساكاد</h2>
+          <p>منصة ساكاد التعليميه منصة تابعه لشركة SASKE <br/> تهدف لإعداد و تدريب الكوادر البشريه علي إستخدام <br/> أحدث التقنيات و الوسائل العلميه الحديثه لمواكبة سوق العمل</p>
+        </div>
+        <div class="links">
+          <h2>الروابط</h2>
+          <ul class="links-info">
+            <li> <a href="https://www.facebook.com/Tafawoq-platform-%D9%85%D9%86%D8%B5%D8%A9-%D8%AA%D9%81%D9%88%D9%82-106753272166777"><i class="bi bi-facebook"></i></a></li>
+            <li> <a href="https://www.youtube.com/channel/UCkfUCUtNDF-jBNofg-9-hJA"><i class="bi bi-youtube"></i></a></li>
+            <li> <a href="https://www.instagram.com/tafawoq12"><i class="bi bi-instagram"></i></a></li>
+
+          </ul>
+        </div>
+      </div>
+      <hr>
+      <div id="sas">
+        <h6>&copy; 2024 copyright for <a href="https://www.facebook.com/saskecompany1" class="sac">SACODY</a> SASKE Company</h6>
+      </div>
+    </footer> {% endcomment %}
+      {% block script %}
+      <script src="{% static './js/query.js' %}"> </script>
+      <script src="{% static './scripts/index.js' %}"> </script>
+      <script src="{% static './bootstrap-js/bootstrap.esm.min.js' %}"></script>
+      <script src="{% static './bootstrap-js/bootstrap.min.js' %}"></script>
+      {% endblock script %}
+      {% block spscript  %}
+        <script>
+          var newsplaceholder = document.querySelector(".newsplaceholder");
+          var NewsBox = document.getElementById("news-box");
+
+          NewsBox.style.display = "none";
+          newsplaceholder.style.display = "initial";
+          window.onload = ()=>{
+            {% for news in news %}
+              let details{{ news.id }} = document.getElementById({{ news.id }});
+              if(details{{ news.id }}.innerText.length > 40){
+                details{{ news.id }}.innerText=details{{ news.id }}.innerText.substr(0, 40) + "....";
+              };
+            {% endfor %}
+            NewsBox.style.display = "initial";
+            newsplaceholder.style.display = "none";
+          }
+        </script>
+      {% endblock spscript  %}
+  </body>
+</html>

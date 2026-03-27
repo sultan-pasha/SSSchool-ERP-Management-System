@@ -1,0 +1,19 @@
+#searchBox{
+    z-index: 5 !important;
+    position: absolute;
+    inset: 0;
+    top: 3em;
+    height: 50vh;
+    width: 100%;
+}
+.search-div{
+    background-color: rgb(25, 38, 63) !important;
+    border-radius: 16px;
+    padding: .5em;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.search-div::-webkit-scrollbar{
+    display: none;
+}

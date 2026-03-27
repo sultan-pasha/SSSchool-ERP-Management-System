@@ -1,0 +1,44 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block spstyle %}
+    <link rel="stylesheet" href="{% static './news.css' %}">
+  {% endblock spstyle %}
+{% block main %}
+<main id="newsDetail" class="mt-3">
+    <h1>{{ news.title }}</h1>
+    <div class="news-box">
+        <div class="newsdata mt-2">
+            <img onclick="fullscreen()" id="imgNews" src={{ news.img.url }} />
+            <p class="me-4 mt-5"> {{ news.detail }} </p>
+        </div>
+        <div class="clear"></div>
+        <div class="adiv mt-5">
+            <a class="btn btn-outline-primary rounded text-light" href={% url 'news:news' %}>عوده إلي الرئيسيه>></a>
+        </div>
+    </div>
+</main>
+<div id="fullscrrenimgdiv" ><img id="fullscrrenimg" src={{ news.img.url }} /> <i id="bi" onclick=exit() class="bi bi-x-circle-fill"></i></div>
+{% endblock main %}
+{% block spscript %}
+<script>
+    var imgclick = document.getElementById("imgNews");
+    var full = document.getElementById("fullscrrenimg");
+    var whole = document.getElementById("fullscrrenimgdiv");
+    var x = document.getElementById("bi");
+    function fullscreen(){
+        whole.style.visibility = "visible";
+        full.style.visibility = "visible";
+        x.style.display = "block";
+    }
+    function exit(){
+        full.style.visibility = "hidden";
+        whole.style.visibility = "hidden";
+        x.style.display = "none";
+    }
+    $(document).keyup(function(e) {
+        if (e.key === "Escape") {
+        exit()
+       }
+   });
+</script>
+{% endblock spscript %}

@@ -1,0 +1,28 @@
+.materials {
+  max-width: 30em;
+  margin: 2em auto !important;
+}
+.materials #materialBox:hover {
+  scale: 1 !important;
+  z-index: initial !important;
+}
+.materials #profilepic {
+  border: 8px solid #0c9633;
+}
+@media screen and (max-width: 407px) {
+  .materials #materialBox {
+    width: 18em !important;
+  }
+}
+
+.status-box {
+  padding-bottom: 1% !important;
+}
+#profilei{
+  position: relative;
+}
+#cupimg{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}

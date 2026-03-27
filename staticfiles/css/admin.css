@@ -1,0 +1,69 @@
+*{
+    direction: rtl;
+}
+#header{
+    border-right: 5px solid green;
+    background-image: url(../media/images/headeradmin.jpeg);
+    background-position: top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: 3s;
+}
+#content-main{
+    width: 100%;
+}
+.sticky{
+    margin-top: 2%;
+}
+#recent-actions-module{
+    background-color:red;
+}
+#branding h3{
+    font-size: 25px;
+    color:black;
+    border-right: 5px solid #ffc107;
+    border-left: 5px solid green;
+    border-bottom-left-radius: 75px;
+    border-top-right-radius: 75px;
+    background-color: transparent;
+    color: #fff;
+    padding: 20PX;
+    font-weight: 800;
+    text-align: center;
+    transition: 2s;
+}
+
+div.breadcrumbs,  .module caption{
+    background-color: green;
+    border-radius: 70px;
+    border-right: 10px solid #ffc107;
+    border-left: 10px solid #ffc107;
+}
+.module h2{
+    background-color: gray;
+}
+.module h2, .module caption{
+    text-align: center!important;
+}
+input[type=submit].default, .submit-row input.default{
+    background-color: green;
+}
+
+.submit-row input{
+    background-color: rgba(0, 128, 0, 0.637);
+}
+.deletelink-box .deletelink{
+    background-color: #a90000bb;
+    border-radius: 30px;
+}
+
+#result_list{
+    
+    width: 100%;
+}
+th, td{
+    width: fit-content;
+}
+tr:nth-child(odd), .row-form-errors{
+    background-color: black --bg;
+}

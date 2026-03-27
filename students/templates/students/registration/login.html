@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+{% load static %}
+{% block spstyle %}
+  <link rel="stylesheet" href="{% static './decore/loginStyle.css' %}">
+{% endblock spstyle %}
+{% block nav %}
+    {% include '../compindex/nav.html' with but="تسجيل" link="student:join" %}
+{% endblock nav %}
+{% block main %}
+<div class="main">
+{% if form.errors %}
+  {% if form.errors|length < 2 %}
+    <div class="message alert alert-danger" role="alert"> {{ form.non_field_errors }} </div>
+  {% else %}
+    {% for field in form %}
+      {% for error in field.errors %}
+        <div class="message alert alert-danger" role="alert">بيانات {{ field.label }} بها خطأ: {{ error }} </div>
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
+{% endif %}
+  <div id="login">
+    <div class="login-box">
+      <form method="POST" id="loginForm">
+        {% csrf_token %}
+        <h3>بطاقة دخول</h3>
+        <div class="stborder">
+          <div id="profile"><img id="profilepic" src="https://images.unsplash.com/photo-1640951613773-54706e06851d?w=500&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHVzZXJ8ZW58MHx8MHx8fDA%3D" alt=""></div>
+        </div>
+        {% if not form.username.errors %}
+          <input class="mt-2" type="username" placeholder="اسم المستخدم" name='username' required value= "{{ form.username.value|default_if_none:"" }}" ><br>
+        {% else %}
+          <input class="mt-2 text-danger" type="username" placeholder="اسم المستخدم خطأ" name='username' required value= "{{ form.username.value|default_if_none:"" }}" ><br>
+          {% endif %}
+        {% if not form.password.errors %}
+          <input type="password" placeholder="كلمة المرور" name='password' required value= "{{ form.password.value|default_if_none:"" }}" >
+        {% else %}
+          <input class="text-danger" type="password" placeholder="يرجي التأكد من كلمة المرور" name='password' required value= "{{ form.password.value|default_if_none:"" }}" >
+        {% endif %}
+        <h6> <a href="{% url "student:reset" %}">هل نسيت بياناتك</a></h6>
+        <button class="bi bi-check2-circle btn p-0" type="submit" ></button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock main %}
+<script src="./deb/bootstrap/js/bootstrap.min.js"> </script>
+<script src="./deb/bootstrap/js/bootstrap.esm.min.js"></script>
+<script src="./actions/action.js"> </script>

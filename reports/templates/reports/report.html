@@ -1,0 +1,174 @@
+{% extends 'index.html' %}
+{% comment %} {% load endsub %} {% endcomment %}
+{% load static %}
+{% block title %}
+  منصة ساكاد | التقرير
+{% endblock title %}
+{% block spstyle %}
+    <meta property="og:url"                content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}" />
+    <meta property="og:title"              content="ملف الطالب {{ cuser.Sfname }}" />
+    <meta property="og:type"              content="article" />
+    <meta property="og:sitename"              content="منصة SASCA التعليميه" />
+    <meta property="og:description"        content="لقد حصل الطالب {{ cuser.Sfname }} علي نسبه مئوية {% if per %}{{ per }}% {% else %} 0% {% endif %} علي منصة SACAD التعليميه" />
+    <meta property="og:image"              content="{% if cuser.simg %}{{ cuser.simg.url }} {% else %} https://images.unsplash.com/photo-1640951613773-54706e06851d?w=500&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHVzZXJ8ZW58MHx8MHx8fDA%3D {% endif %}" />
+    
+    <link rel="stylesheet" type="text/css" href="{% static './decore/report.css' %}" />
+{% endblock spstyle %}
+{% block main %}
+    <div class="main">
+    <div class="index-container">
+      <div class="common-box">
+        <div class="materials-box mt-5">
+          <div class="index-box-head">
+            <h2>تقرير ملف الطالب</h2>
+          </div>
+          <div class="materials row">
+            <div class="col-8" id="materialBox">
+              <div class="mat-head">
+                <div id="profile"><img  style="border: 8px solid {% if per >= 80 %} #0c9633 {% elif per >= 50 %} blue {% else %} red {% endif %};" id="profilepic" src=" {% if cuser.simg %} {{ cuser.simg.url }} {% else %} https://images.unsplash.com/photo-1640951613773-54706e06851d?w=500&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHVzZXJ8ZW58MHx8MHx8fDA%3D {% endif %}" alt=""></div>
+                <div class="rate">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                </div>
+              </div>
+              <div class="matinfo"> 
+                <h3> {{ cuser.Sfname }} {{ cuser.Smname }} {{ cuser.Slname }}   </h3>
+                <h5 class="me-3">النسبه المئويه: <span>{% if per %} {{ per|floatformat }} {% else %} 0{% endif %}% </span></h5>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated {% if per >= 80 %} bg-success {% elif per >= 50 %} {% elif per < 50 %} bg-danger {% endif %}" role="progressbar" aria-valuenow="{% if per %} {{ per|floatformat }}{% else %} 0{% endif %}" aria-valuemin="0" aria-valuemax="100" style="width: {% if per %} {{ per|floatformat }}{% else %} 0{% endif %}%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tasks-box mt-3">
+          <h2>المهام المنجزه</h2>
+          <div class="tasks-table"> 
+            <div id="tasksList">
+            {% if rep or watched %}
+              <table>
+                <thead> 
+                  <tr>
+                    <th>المهمه</th>
+                    <th>النتيجه</th>
+                    <th>المدرس</th>
+                  </tr>
+                </thead>
+                <tbody> 
+                  {% if erep %}
+                    {% for erep in erep %}
+                      <tr>
+                        <td> <img id="taskImg" src="{% if erep.exam.eximg %} {{ erep.exam.eximg.url }} {% elif erep.exam.cat.cimage %} {{ erep.exam.cat.cimage.url }} {% else %} https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcYqVcQ9PpKqD1y4iS5vIRkrrHB2IHi9jaIw&amp;s {% endif %}">
+                          <a href="{% url 'reports:examrv' erep.id %}">
+                            <div class="info"><i> تقرير إمتحان {{ erep.exam.title }} </i><br><i>{{ erep.exam.level }}</i></div>
+                          </a>
+                        </td>
+                          <td>{{ erep.presentage }}%</td>
+                          <td> <a href="{% url "coaches:coach" erep.exam.cat.CCoach.id %}">أ/ {{ erep.exam.cat.CCoach }}</a></td>
+                        </tr>
+                    {% endfor %}
+                  {% endif %}
+                  {% if hrep %}
+                    {% for erep in hrep %}
+                      <tr>
+                        <td> <img id="taskImg" src="{% if erep.lesson.limg %} {{ erep.lesson.limg.url }} {% else %} https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcYqVcQ9PpKqD1y4iS5vIRkrrHB2IHi9jaIw&amp;s {% endif %}">
+                          <a href="{% url 'reports:homerv' erep.lesson.id %}">
+                            <div class="info"><i>تقرير واجب {{ erep.lesson.name }} </i><br><i>{{ erep.lesson.LHlevel }}</i></div>
+                          </a>
+                        </td>
+                        <td>{{ erep.presentage }}%</td>
+                        <td> <a href="{% url "coaches:coach" erep.lesson.catname.CCoach.id %}">أ/ {{ erep.lesson.catname.CCoach }}</a></td>
+                      </tr>
+                    {% endfor %}
+                  {% endif %}
+                  {% if watched %}
+                    {% for all in watched %}
+                      <tr>
+                        <td> 
+                          <img id="taskImg" src="{% if all.limg %} {{ all.limg.url }} {% else %} https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcYqVcQ9PpKqD1y4iS5vIRkrrHB2IHi9jaIw&amp;s {% endif %}">
+                          <a href="{% url 'home:lesson' all.id all.catname.id %}">
+                            <div class="info"><i>محاضرة {{ all.name }}</i><br><i>{{ all.Llevel }}</i></div>
+                          </a>
+                          </td>
+                        <td>{{ all.date }}</td>
+                        <td> <a href="{% url "coaches:coach" all.catname.CCoach.id %}">أ/ {{ all.catname.CCoach }}</a></td>
+                      </tr>
+                    {% endfor %}
+                  {% endif %}
+                
+                </tbody>
+              </table>
+              {% else %}
+              <h2 class="alert alert-info" >لم {% if ruser or user.is_staff or not user.is_authenticated %}  يقم الطالب {{ cuser.Sfname }} {% else %} تقم {% endif %} بأداء اي مهام بعد</h2>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="status-box"> 
+        <div class="index-box-head">
+          <h3>حالة الطالب</h3>
+          <h6>خلال اخر عام</h6>
+        </div>
+        
+        <div id="chart"></div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
+        <center> 
+          <h6 >عام {% now "Y" %}</h6>
+        </center>
+        <div class="online-teach"> 
+          <div class="index-box-head">
+            <h3>لوحة الشرف</h3><a href="{% url "coaches:coaches" %}"><h6>عرض الكل</h6></a>
+          </div>
+          <div id="honorWall">
+            <div class="honor-second-sec">
+              {% if st %}
+                {% for st in st %}
+                  {% if st.Spercent > 50 %}
+                    {% cycle "media/images/trophy.png" "media/images/silver-cup.png" "media/images/bronze-cup.png"  as cupimg silent %}
+                    {% if forloop.counter <= 3 %}
+                      <div id="profilei"><a href="{% url "reports:prof" st.id %}"><img id="profilepic" {% if ruser == st %} {% if rper >= 80 %} style="border: 8px solid #0c9633" {% elif rper >= 50 %} style="border: 8px solid blue" {% else %} style="border: 8px solid red" {% endif %} {% endif %}" src="{% if st.simg %} {{ st.simg.url }} {% else %} https://images.unsplash.com/photo-1640951613773-54706e06851d?w=500&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHVzZXJ8ZW58MHx8MHx8fDA%3D {% endif %}" alt=""></a><img id="cupimg" src="{% static cupimg %}" width="30" /></div>
+                    {% else %}
+                      <div id="profilei"><a href="{% url "reports:prof" st.id %}"><img id="profilepic" {% if ruser == st %} {% if rper >= 80 %} style="border: 8px solid #0c9633" {% elif rper >= 50 %} style="border: 8px solid blue" {% else %} style="border: 8px solid red" {% endif %} {% endif %}" src="{% if st.simg %} {{ st.simg.url }} {% else %} https://images.unsplash.com/photo-1640951613773-54706e06851d?w=500&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHVzZXJ8ZW58MHx8MHx8fDA%3D {% endif %}" alt=""></a></div>
+                    {% endif %}
+                  {% elif forloop.counter <= 1 %}
+                    <h2 class="alert alert-success mt-3">لا يوجد طلاب فائقين حتي الأن فرصتك أكبر</h2>
+                  {% endif %}
+                  {% endfor %}
+              {% else %}
+                <h2 class="alert alert-success mt-3">لا يوجد طلاب مشتركين بالمنصه كن أنت الأول</h2>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="index-box-head mt-4">
+          <h3>بطاقة الطالب</h3>
+        </div>
+        <div class="offers-box"><br>
+          <div id="studentcard"> 
+            <div class="student-data">
+              <div class="student-info">
+                <h4> {{ cuser.Sfname }} {{ cuser.Smname }} {{ cuser.Slname }}  </h4>
+                <h5> {{ cuser.Sidnumber }} </h5>
+                <h6>النسبه المئويه: <span>{% if per %}{{ per|floatformat }}{% else %}0{% endif %}% </span></h6>
+                <h5>مستوي الطالب: <span>{% if per >= 80 %} ممتاز {% elif per >= 50 %} جيد {% else %} ضعيف {% endif %}</span></h5>
+                <h6 class="end">ينتهي الإشتراك في:<span> {{ end }} </span></h6>
+              </div>
+              <div class="student-ac"><img id="studentImg" src="{% if cuser.simg %}{{ cuser.simg.url }} {% else %}  https://images.unsplash.com/photo-1640951613773-54706e06851d?w=500&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHVzZXJ8ZW58MHx8MHx8fDA%3D {% endif %}" alt=""><a class="btn" href="{% url "pay:pay" %}">{% if not request.user.is_authenticated %} مساعده {% elif cuser == ruser or not ruser%} تجديد {% else %} مساعده {% endif %}</a></div>
+            </div>
+            <h6 class="STstatus" style="color:{% if cuser.Sstatus %} {% if cuser.SinitDate < end or cuser.points <= 0%} green {% else %} red {% endif %} {% else %} red {% endif %}">{% if cuser.Sstatus %}{% if cuser.SinitDate < end or cuser.points <= 0 %} الإشتراك ساري {% else %}  الإشتراك منتهي {% endif %} {% else %} الإشتراك منتهي {% endif %}</h6><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.scheme }}://{{ request.META.HTTP_HOST }}/report/prof/{{ cuser.id }}" class="btn bi bi-box-arrow-up"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock main %}
+{% block spscript %}
+  <script>
+    var mainitem = document.querySelectorAll(".nav-item")[4]
+    mainitem.classList.add("nav-active")
+    {% include './compindex/chart.html' %}
+  </script>
+{% endblock spscript %}

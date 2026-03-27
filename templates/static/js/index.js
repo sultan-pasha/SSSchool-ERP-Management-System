@@ -1,0 +1,1 @@
+$(function(){$(".flipster").flipster({style:"flat",spacing:-.6,start:"center",nav:!1,buttons:!1,loop:!0,fadeIn:400,click:!0,keyboard:!0,scrollwheel:!0,touch:!0})});

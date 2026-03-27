@@ -1,0 +1,18 @@
+#lesson {
+  border: 1px solid black;
+  border-radius: 16px;
+}
+
+.row > * {
+  padding: 0.5em !important;
+}
+
+h2, h3 {
+  font-family: "TitlesFont";
+  font-size: 1.3em;
+}
+
+p {
+  font-family: "ParaFont";
+  margin-right: 1em;
+}

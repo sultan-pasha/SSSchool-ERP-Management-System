@@ -1,0 +1,104 @@
+{% extends "index.html" %}
+{% load static %}
+{% block spstyle %}
+  <link rel="stylesheet" href="{% static './deb/plugins/styles/flipster.min.css' %}">
+  <link rel="stylesheet" href="{% static './decore/tracks.css' %}">
+  <link rel="stylesheet" href="{% static './decore/lect.css' %}">
+{% endblock spstyle %}
+{% block header %}{% endblock header %}
+{% block nav %}
+    {% include "./compindex/nav.html" %}
+{% endblock nav %}
+{% block main %}
+        {% if cats %}
+            <div class="container">
+                <div class="tracks-container mt-5">
+                    <h3 class="mb-5">كورسات مستر/ {{ coach.CName }}</h3>
+                    {% if cats %}
+                    <div class="flipster">
+                        <ul class="flip-items">
+                            {% for cats in cats %}
+                            <li class="Item-{{ cats.id }}">
+                                
+                                    <div id="materialBox">
+                                        <div class="mat-head">
+                                            <img
+                                                src="{% if cats.cimage %} {{ cats.cimage.url }} {% else %}https://img.freepik.com/free-vector/hand-drawn-science-education-background_23-2148494234.jpg{% endif %}"
+                                                alt=""
+                                            />
+                                            <div class="rate">
+                                                {% for x in cats.Crate %}
+                                                    <i class="bi bi-star-fill"></i>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="matinfo">
+                                            <h2>{{ cats.name }}</h2>
+                                            <h5 class="me-3">
+                                                قيمة الإشتراك الشهري :
+                                                <center><strong><u><span>{{ cats.Cprice }} جنيه </span></u></strong></center>
+                                            </h5>                                           
+                                        </div>
+                                        <center><a href="tel:*9*7*0{{coach.CPhone.national_number }}*{{ cats.Cprice }}%23" class="btn btn-success">اشترك الأن</a></center>
+                                        <h6 class="m-2 alert alert-danger">
+                                            اذا لم يعمل رابط الدفع يرجي تحويل قيمة الرصيد فودافون كاش علي الرقم التالي {{ coach.CPhone.country_code }}{{coach.CPhone.national_number }} 
+                                            <br>و يرجي عمل اسكرين بعد التحويل و ارفاقه من خلال
+                                            <a href="https://wa.me/{{ coach.CPhone.country_code }}{{ coach.CPhone.national_number }}?text=اتواصل معك انا الطالب صاحب اسم مستخدم {{ user }} من أجل تأكيد دفع كورس {{ cats.name }} علي منصة SACAD التعليميه بإشتراك شهري قيمة {{ cats.Cprice }} جنيه و جاري إرسال وصل الدفع"> <h5 style='display: inline;'> whatsapp </h5> </a>
+                                            ثم العوده 
+                                            <a href="{% url 'coaches:order' cats.id coach.id %}"><h4 style='display: inline;'>لتأكيد الحجز</h4></a>
+                                        </h6>
+                                    </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% else %}
+            <h2 class="m-5 alert alert-danger" style="text-align:center">نأسف مستر {{ coach }} لم ينشر اي كورسات بعد</h2>
+            <a href="{% url 'coaches:coaches' %}"> <h3> عد إلي الرئيسيه من هنا </h3> </a>
+        {% endif %}
+
+        {% comment %} {% if CCats %}
+        <ol>
+            {% for cat in CCats %}
+            <li>
+                    كورس {{ cat.name }}
+                    {% if cat.cimage %}
+                        <img src={{ cat.cimage.url }} />
+                    {% else %}
+
+                    {% endif %}
+                    قيمة الإشتراك الشهري : {{ cat.Cprice }} جنيه
+                    <a href="tel:*9*7*0{{coach.CPhone.national_number }}*{{ cat.Cprice }}%23" class="btn btn-outline-success">ادفع الأن</a>
+                    <br>
+                    <a href=></a>
+                    <h6 class="m-2 alert alert-danger">
+                        اذا لم يعمل رابط الدفع يرجي تحويل قيمة الرصيد فودافون كاش علي الرقم التالي {{ coach.CPhone.country_code }}{{coach.CPhone.national_number }} 
+                        <br>و يرجي عمل اسكرين بعد التحويل و ارفاقه من خلال
+                        <a href="https://wa.me/{{ coach.CPhone.country_code }}{{ coach.CPhone.national_number }}?text=اتواصل معك انا الطالب صاحب اسم مستخدم {{ user }} من أجل تأكيد دفع كورس {{ cat.name }} علي منصة SACAD التعليميه بإشتراك شهري قيمة {{ cat.Cprice }} جنيه و جاري إرسال وصل الدفع"> <h5 style='display: inline;'> whatsapp </h5> </a>
+                        ثم العوده 
+                        <a href="{% url 'coaches:order' cat.id coach.id %}"><h4 style='display: inline;'>لتأكيد الحجز</h4></a>
+                    </h6>
+                
+            </li>
+                
+            <hr/>
+            {% endfor %}
+        </ol>
+        {% else %}
+        <h2 class="m-5 alert alert-danger" style="text-align:center">نأسف مستر {{ coach }} لم ينشر اي كورسات بعد</h2>
+        <a href="{% url 'coaches:coaches' %}"> <h3> عد إلي الرئيسيه من هنا </h3> </a>
+        {% endif %} {% endcomment %}
+{% endblock main %}
+{% block spscript %}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="{% static './js/index.js' %}"> </script>
+    <script src="{% static './deb/plugins/scripts/flipster.min.js' %}"> </script>
+    <script>
+      var mainitem = document.querySelectorAll(".nav-item")[1]
+      mainitem.classList.add("nav-active")
+
+     </script>
+{% endblock spscript %}

@@ -1,0 +1,48 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+  منصة ساكاد | تقارير الواجبات
+{% endblock title %}
+{% block spstyle %}
+    <link rel="stylesheet" type="text/css" href="{% static './report/style/report.css' %}" />
+{% endblock spstyle %}
+{% block main %}
+<div>
+    <h3>{{ rep }}</h3>
+    <hr style="background-color: #ffc107; height: .25rem;">
+    <h1 class="percent-tit mb-3">النسبه المئويه:
+        <span style="color:{% if rep.presentage > 80 %}green {% elif rep.presentage  >= 50 %}blue {% elif rep.presentage < 50 %}red{% endif %}">{{ rep.presentage }}%</span>
+    </h1>
+    </div>
+    <table class="table table-dark table-striped table-hover">
+        <thead>
+            <tr>
+                <th>عدد الاسئله</th>
+                <th>عدد الإجابات الصحيحه</th>
+                <th>عدد الإجابات الخاطئه</th>
+                <th>الدرجه الكليه</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{rep.asknumber}}</td>
+                <td>{{rep.correctAnswers}}</td>
+                <td>{{rep.wrongAnswers}}</td>
+                <td>{{rep.correctAnswers}} / {{rep.asknumber}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="text-align:center;">
+        <i class="{% if rep.presentage >= 50 %} bi bi-check-circle-fill {% else %} bi bi-x-circle-fill {% endif %}" style="font-size:10em; color: {% if rep.presentage > 50 %} green {% else %} red; {% endif %}"></i>
+    </div>
+  </div>
+{% endblock main %}
+
+{% block spscript %}
+    <script>
+        var mainitem = document.querySelectorAll(".nav-item")[4]
+        mainitem.classList.add("nav-active")
+    </script>
+    <script src="{% static './report/script/jquery.easypiechart.min.js' %}"></script>
+    <script src="{% static './report/script/report.js' %}"></script>
+{% endblock spscript %}

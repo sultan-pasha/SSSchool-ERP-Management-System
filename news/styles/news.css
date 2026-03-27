@@ -1,0 +1,95 @@
+#divtitle{
+    text-decoration: underline 8px;
+    margin-bottom: 4%;
+    font-weight: bolder;
+}
+#news-box{
+    display: none;
+}
+.news{
+    border: 2px solid #212529;
+    border-top-right-radius: 75px;
+    border-bottom-left-radius: 75px;
+    text-align: center;
+    background-color: #212529;
+    text-decoration: none;
+    padding: 2% 0;
+    transition: 1s;
+}
+.news:hover{
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 75px;
+}
+.news h2{
+    text-decoration: underline 5px;
+    font-weight: bolder;
+}
+.news h2, .news p{
+    color: white;
+}
+#newsImg{
+    width: 100%;
+    aspect-ratio: 1/1;
+    padding: 8% 2%;
+}
+
+
+/* detail styles */
+#newsDetail{
+    background-color: #212529;
+    border: 2px solid #212529;
+    border-top-right-radius: 75px;
+    border-bottom-right-radius: 75px;
+    padding: 2%;
+    color: white;
+    width: fit-content;
+    transition: 3s;
+    margin: 0 auto;
+}
+
+/* 
+#newsDetail:hover .newsdata p{
+    display: inline;
+} */
+#newsDetail h1{
+    text-decoration: underline;
+    font-weight: bolder;
+}
+#imgNews{
+    width: 50%;
+    float: left;
+    cursor: pointer;
+}
+.clear{
+    clear: both;
+}
+.adiv{
+    text-align: center;
+}
+
+#fullscrrenimg{
+    width: 90vw;
+    height: 90vh;
+    z-index: 9;
+    visibility: hidden;
+    object-fit: contain;
+}
+#fullscrrenimgdiv{
+    margin: 0 auto;
+    visibility: hidden;
+    position: fixed;
+    inset: 0;
+    top: 5%;
+    z-index: 90;
+}
+.bi-x-circle-fill{
+    position: absolute;
+    color: red;
+    top: -5%;
+    right: 10%;
+    z-index: 99;
+    font-size: 4.2em !important;
+    cursor: pointer;
+    display: none;
+}

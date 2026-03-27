@@ -1,0 +1,45 @@
+{% load static %}
+{% if not but %}
+<nav> 
+  <div class="nav-item"><a href="/"> <i class="bi bi-house"></i>
+      <h3>الصفحه الرئيسيه</h3></a></div>
+  <div class="nav-item"><a href="{% url 'home:home' %}">    <i class="bi bi-mortarboard"></i>
+      <h3>المسارات</h3></a></div>
+  <div class="nav-item nav-brand"><img id="brand" src="{% static './deb/media/imgs/brand.png' %}" alt="" srcset="">
+    <h3>عوده</h3>
+  </div>
+  <div class="nav-item"> <a href="{% url 'task:exams' %}"> <i class="bi bi-question-lg"></i>
+      <h3>الإمتحانات</h3></a></div>
+  {% if not user.is_staff %}
+  <div class="nav-item"> <a href="{% url 'reports:report' %}">    <i class="bi bi-file-earmark-bar-graph"></i>
+    <h3>التقارير</h3></a></div>
+  {% else %}
+  <div class="nav-item"> <a href="/admin">    <i class="bi bi-gear-wide-connected"></i>
+    <h3>لوحة التحكم</h3></a></div>
+  {% endif %}
+</nav>
+{% endif %}
+<div id="navbtn"> <img class="navbtn" src="{% static './deb/media/imgs/brand.png' %}" alt="" srcset="" width="100"></div>
+
+<div id="welcomeSec"> 
+  <div class="help">
+    <div class="help-box"><i class="bi bi-chat-dots"></i><i class="bi bi-bell"></i>
+      <div class="help-center">{% if not but %} <a href="{% url "students:logout" %}"><i class="bi bi-emoji-frown"></i></a> {% endif %}
+        <h6>مركز المساعده</h6>
+      </div>
+    </div>
+    <div class="enter-btn"><a class="btn-enter" href="{% if link %} {% url link %} {% else %} "/" {% endif %}"> {% if but %}{{ but }} {% else %} ملفي {% endif %} </a></div>
+  </div>
+  <div class="welcome">
+    <div class="welcome-sec"> 
+      <h1>مرحباً يا<span>  {% if user %} {% if user.is_staff and user.first_name%} {{user.first_name}} {% elif user.is_staff %} {{ user }} {% elif not user.is_staff %} {{cuser.Sfname}} {% else %} صديقي {% endif %} {% endif %} {% if not user %} صديقي {% endif %}</span></h1>
+      <div class="search-box">
+        <h6>أهلاً بعودتك</h6>
+        <div class="input-group"><span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
+        <input class="form-control" id="serachInput" type="search" name="q" placeholder="ابحث بكلمه مفتاحيه او اسم الماده" aria-describedby="basic-addon1" value="{{ request.GET.q }}">
+          {% include './search.html' %}
+      </div>
+    </div>
+    </div>
+  </div>
+</div>

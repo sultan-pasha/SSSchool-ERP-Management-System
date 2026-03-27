@@ -1,0 +1,52 @@
+#materialBox{
+  width: initial !important;
+  text-align: center;
+}
+.matinfo{
+  display: block !important;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .container{
+    max-width: 720px !important;
+  }
+}
+#chart {
+  margin: 0 auto;
+  width: 95%;
+}
+#chart .plot-d6a7b5 {
+  transition: 1s;
+  transition-timing-function: ease;
+  color: white !important;
+  --plot-background: black !important;
+  font-size: 1em !important;
+  width: 100%;
+}
+#chart .plot-d6a7b5 g[aria-label="crosshair rule"] line {
+  color: black !important;
+}
+#chart .plot-d6a7b5 g[aria-label="crosshair text"] {
+  font-size: 1.3em !important;
+}
+#chart .plot-d6a7b5 g[aria-label="y-axis label"] text {
+  display: none;
+}
+#chart .plot-d6a7b5 g[aria-label=area] {
+  transition: 1s;
+  transition-timing-function: ease;
+  transform: scaleX(-1) scaleY(10);
+}
+#chart .plot-d6a7b5 g[aria-label=line] {
+  transition: 1s;
+  transition-timing-function: ease;
+  transform: scaleX(0) scaleY(0);
+}
+#chart .plot-d6a7b5 g[aria-label=line] marker {
+  cursor: pointer;
+  fill: #3a5b97;
+  stroke: white;
+  stroke-width: 0.7px;
+}
+#chart .plot-d6a7b5 g[aria-label=tip] text {
+  font-size: 2em !important;
+}

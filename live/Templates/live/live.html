@@ -1,0 +1,89 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block main %}
+    {% if cuser.is_staff %}
+    <h3 class='alert-info text-center'>يرجي تحديد اسم اللايف و صوره معبره عنه</h3>
+    <form id='liveForm' method='POST' enctype='multipart/form-data' >{% csrf_token %}
+        <input required type="text" name='lname' id='lname' placeholder='اسم اللايف'> <br>
+        <label required for="limg">صورة</label>
+        <input required type="file" name="limg" id="limg"> 
+        <input required type="text" name="lurl" id="lurl" hidden>
+        <input required type="text" name="lroomid" id="lroomid" hidden>
+        <input required class="btn btn-outline-success" type="submit" value="نشر اللايف">
+    </form>
+    <div style="display:none" id='liveContainer'></div>
+    {% endif %}
+
+    <div class='container lives-box' >
+        {% if live %}
+        <div id='liveContainer'></div>
+        <div id="livesList" class="row">
+            <ol class="list-group list-group-numbered col-md-12">
+            {% for live in live %}
+                {% if cuser.is_staff %}
+                    <a class="exam-link" href="/{{ live.Lurl }}">
+                    {% else %}
+                    <a class="exam-link" href="/{{ live.Lurl }}&role=Audience">
+                    {% endif %}
+                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <h1>{{ live.Lname }}</h1>
+                        <span class="">رقم الغرفه: <span class="">{{ live.Lroom }}</span></span>
+                        <span class=""><img src="{{ live.Limg.url }}" width="100"/></span>
+                    </li>
+                </a>
+            {% endfor %}
+            </ol>
+        <div>
+        {% else %}
+        {% if not cuser.is_staff %}
+            <div>
+                <h1 class='alert-info p-2 text-center'> لم يتم نشر اي بث مباشر حتي الأن</h1>
+            </div>
+        {% else %}
+            
+        {% endif %}
+        
+        {% endif %}
+        
+    </div>
+{% endblock main %}
+
+
+{% block spscript %}
+<script src="{% static './js/zego-uikit-prebuilt.js' %}"></script>
+<script>
+{% if cuser.is_staff %}
+    var urlf = document.getElementById("lurl");
+    var joinBtn = document.getElementsByClassName("VsTVUAD89KWleD0YRVsD")[0];
+    var liveForm = document.getElementById("liveForm");
+    var lroomid = document.getElementById("lroomid");
+    var livesLis = document.getElementById("livesList");
+window.onload = function () {
+
+    function getUrlParams(url) {
+        let urlStr = url.split('?')[1];
+        const urlSearchParams = new URLSearchParams(urlStr);
+        const result = Object.fromEntries(urlSearchParams.entries());
+        return result;
+    }
+        // Generate a Token by calling a method.
+        // @param 1: appID
+        // @param 2: serverSecret
+        // @param 3: Room ID
+        // @param 4: User ID
+        // @param 5: Username
+        lroomid.value = getUrlParams(window.location.href)['roomID'] || Math.floor(Math.random() * 10000) + "";
+        var roomID = lroomid.value;
+        lroomid.addEventListener("keypress", function(){
+            roomID = lroomid.value;
+        });
+
+        urlf.value = "live/livestart?roomID=" + roomID;
+        lroomid.value = roomID
+        if (liveForm.submit){
+            window.location.go(window.location.protocol + '//' + window.location.host + 'live/livestart?roomID=' + roomID + '&role=Host')
+        }
+}
+{% endif %}
+</script>
+{% endblock spscript %} 

@@ -1,0 +1,85 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block main %}
+    <div class="mt-3" id='liveContainer'></div>
+
+{% endblock main %}
+
+
+{% block spscript %}
+<script src="{% static './js/zego-uikit-prebuilt.js' %}"></script>
+<script>
+
+window.onload = function () {
+
+    function getUrlParams(url) {
+        let urlStr = url.split('?')[1];
+        const urlSearchParams = new URLSearchParams(urlStr);
+        const result = Object.fromEntries(urlSearchParams.entries());
+        return result;
+    }
+        // Generate a Token by calling a method.
+        // @param 1: appID
+        // @param 2: serverSecret
+        // @param 3: Room ID
+        // @param 4: User ID
+        // @param 5: Username
+    var roomID = getUrlParams(window.location.href)['roomID'];
+    const userName = "{{ cuser }}";
+    const appID = 1899551329;
+    const serverSecret = "dd4814256b1c4ee6fb2091186be81a65";
+    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, Math.floor(Math.random() * 10000) + "", userName);
+    
+        // You can assign different roles based on url parameters.
+
+        
+        //let role = ZegoUIKitPrebuilt.Host;
+        
+        //let role = ZegoUIKitPrebuilt.Audience;
+        
+        {% if cuser.is_staff %}
+            role = ZegoUIKitPrebuilt.Host
+        {% else %}
+            role = ZegoUIKitPrebuilt.Audience
+        {% endif %}
+
+        let config = {}
+        if(role === 'Host'){
+            config = {
+           	turnOnCameraWhenJoining: true,
+           	showMyCameraToggleButton: true,
+           	showAudioVideoSettingsButton: true,
+           	showScreenSharingButton: true,
+           	showTextChat: true,
+           	showUserList: true,
+         }
+        }
+        const zp = ZegoUIKitPrebuilt.create(kitToken);
+        
+        zp.joinRoom({
+            showPreJoinView:false,
+            onLeaveRoom:() =>{
+                window.location.assign(window.location.protocol + '//' + window.location.host + "/live/delete/" + roomID)
+            },
+
+            onUserAvatarSetter:(userList) => {
+                userList.forEach(user => {
+                    user.setUserAvatar("{{ cuser.simg.url }}")
+                })
+            }, 
+            whiteboardConfig: {
+                showAddImageButton: true, // It's set to false by default. To use this feature, activate the File Sharing feature, and then import the plugin. Otherwise, this prompt will occur: "Failed to add image, this feature is not supported."
+                showCreateAndCloseButton: true, // Whether to display the button that is used to create/turn off the whiteboard. Displayed by default.
+            },            
+            container: document.querySelector("#liveContainer"),
+            scenario: {
+                mode: ZegoUIKitPrebuilt.LiveStreaming,
+                config: {
+                        role,
+                },
+            },
+            ...config
+            });        
+}
+</script>
+{% endblock spscript %} 

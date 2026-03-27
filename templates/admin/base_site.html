@@ -1,0 +1,14 @@
+{% extends 'admin/base.html' %} 
+{% load static %}
+{% block title %} منصة ساكاد | لوحة التحكم{% endblock title %}
+{% block branding %}
+    <a class="navbar-brand" href="/"><img id="brandimg" src="{% static './media/images/secback.png' %}"  width="200"/></a>
+{% endblock branding %}
+
+{% block extrahead %}
+    <link rel="icon" type="image/png" href="{% static './media/images/icon.png' %}"/>
+{% endblock %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" type="text/css" href="{% static './css/admin.css' %}"/>
+{% endblock extrastyle %}

@@ -1,0 +1,104 @@
+{% load static %}
+<div id="searchBox" style='display: {% if request.GET.q %} initial {% else %} none {% endif %};'>
+    <div class="search-div">
+        {% if request.GET.q %}
+            {% if lessearch or examsearch or cosearch or stusearch %}
+            <center><h1>نتائح البحث عن: {{ request.GET.q }}</h1></center>
+                    {% if lessearch %}
+                        <div class='lec-search'>
+                            <h2>المحاضرات</h2>
+                            <hr>
+                            <div class='lecs'>
+                                <div class="car-container row justify-content-between me-auto le">
+                                    {% for les in lessearch %}
+                                    <div class="mt-2 col-lg-5 col-11" id="card">
+                                        <a href={% url "home:lesson" les.id les.catname.id %}> 
+                                            <div class="card-data">
+                                                <div class="card-data-right"> <img id="cardImg" src="{% if les.limg %} {{ les.limg.url }} {% else %} {% static './deb/media/imgs/match poster lesson.png' %} {% endif %}" width="100">
+                                                    <u>
+                                                        <h4>{{ les.name }}</h4>
+                                                    </u>
+                                                </div>
+                                                <div class="card-actions">
+                                                    <h6 class="le-card-pup">{% if les.Lviews %}{{ les.Lviews }} {% else %} 0 {% endif %}<span class="bi bi-eye-fill"></span></h6>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                    {% endif %}
+                    {% if examsearch %}
+                        <div class='lec-search'>
+                            <h2 class="mt-5">الإمتحانات</h2>
+                            <hr>
+                            <div class='lecs'>
+                                <div class="car-container row justify-content-between me-auto le">
+                                    {% for exam in examsearch %}
+                                    <div class="mt-2 col-lg-5 col-11" id="card">
+                                        <a href="{{ exam.get_absolute_url }}"> 
+                                            <div class="card-data">
+                                                <div class="card-data-right"> <img id="cardImg" src="{% if les.limg %} {{ les.limg.url }} {% else %} {% static './deb/media/imgs/match poster lesson.png' %} {% endif %}" width="100">
+                                                    <u>
+                                                        <h4>{{ exam.title }}</h4>
+                                                    </u>
+                                                </div>
+                                                <div class="card-actions">
+                                                    <h6 class="le-card-pup">{{ exam.views }} <span class="bi bi-pencil-square"></span></h6>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                {% if stusearch %}
+                <div class='lec-search'>
+                    <h2 class="mt-5">الطلاب</h2>
+                    <hr>
+                        <div class='lecs'>
+                            <div class="online-teach"> 
+                                <div id="honorWall">
+                                    <div class="honor-second-sec">
+                                        {% for stu in stusearch %}
+                                        <div id="profile"><a href="{% url "reports:prof" stu.id %}"><img id="profilepic" src="{% if stu.Cimg %} {{ stu.Cimg.url }} {% else %} https://images.unsplash.com/photo-1640951613773-54706e06851d?w=500&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHVzZXJ8ZW58MHx8MHx8fDA%3D {% endif %}" alt=""><h4>{{ stu.Sfname }}</h4></a></div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if cosearch %}
+                    <div class='lec-search'>
+                        <h2 class="mt-5">المدرسين</h2>
+                        <hr>
+                            <div class='lecs'>
+                                <div class="online-teach"> 
+                                    <div id="honorWall">
+                                        <div class="honor-second-sec">
+                                            <div class="honor-second-sec">
+                                                {% for co in cosearch %}
+                                                <div id="profile"><a href="{% url "coaches:coach" co.id %}"><img id="profilepic" src="{% if co.Cimg %} {{ co.Cimg.url }} {% else %} https://images.unsplash.com/photo-1640951613773-54706e06851d?w=500&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHVzZXJ8ZW58MHx8MHx8fDA%3D {% endif %}" alt=""><h4>أ/ {{ co.CName }}</h4></a></div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                <h2 class="alert alert-success mt-5">لا يوجد شئ يطابق {{ request.GET.q }}</h2>
+            {% endif %}
+    {% else %}
+        <h2 class="alert alert-success mt-5">سيتم العرض بعد الضغط علي زر الإدخال</h2>
+    {% endif %}
+    </div>
+</div>

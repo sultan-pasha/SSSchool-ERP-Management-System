@@ -1,0 +1,42 @@
+{% load static %}
+<div class="container">
+    <div class="tracks-container mt-5">
+        <h3 class="mb-5">المواد</h3>
+        {% if cats %}
+        <div class="flipster">
+            <ul class="flip-items">
+                {% for cats in cats %}
+                <li class="Item-{{ cats.id }}">
+                    <a href="{% if link %} {% url link cats.id%} {% else %} {{ cats.get_absolute_url }} {% endif %}">
+                        <div id="materialBox">
+                            <div class="mat-head">
+                                <img id="cardImg" src="{% if cats.cimage %} {{ cats.cimage.url }} {% else %} https://img.freepik.com/free-vector/hand-drawn-science-education-background_23-2148494234.jpg {% endif %}" width="100">
+                                <div class="rate">
+                                    {% for x in cats.Crate %}
+                                        <i class="bi bi-star-fill"></i>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="matinfo">
+                                <h2>{{ cats.name }}</h2>
+                                <h5 class="me-3">
+                                    التقدم<span class="rate{{ cats.id }}"> </span>
+                                </h5>
+                                
+                                <div
+                                    class="sas-progress sas-progress{{ cats.id }} me-3"
+                                ></div>
+    
+                            
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% else %}
+<h2 class="alert alert-info">لم يتم نشر اي مسارات بعد</h2>
+{% endif %}

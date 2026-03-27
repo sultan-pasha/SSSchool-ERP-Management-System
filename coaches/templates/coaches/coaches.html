@@ -1,0 +1,45 @@
+{% extends "index.html" %}
+{% load static %}
+{% block nav %}
+    {% include "./compindex/nav.html" %}
+{% endblock nav %}
+{% block main %}
+<header> 
+    <h1 class="ht">
+        اختر المدرب الخاص بك
+    </h1>
+  </header>
+    <div class="materials row justify-content-around me-auto mt-5">
+        {% for coach in coaches %}
+        <div class="col-auto col-md-3 me-2 mb-4" id="materialBox">
+            <a href="{% url "coaches:coach" coach.id %}">
+                <div class="mat-head">
+                    <div id="profile"><img id="profilepic" src="https://images.unsplash.com/photo-1640951613773-54706e06851d?w=500&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHVzZXJ8ZW58MHx8MHx8fDA%3D" alt=""></div>
+                    <div class="rate">
+                        {% for x in coach.Crate %}
+                            <i class="bi bi-star-fill"></i>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="matinfo"> 
+                    <h4>مستر/ {{ coach.CName }}</h4>
+                    <h5 class="text-dark">{{ coach.CPhone.national_number }} {{ coach.CPhone.country_code }}+</h5>
+                </div>
+            </a>
+        </div>   
+        {% endfor %}
+    </div>
+{% endblock main %}
+
+{% comment %} 
+    
+
+    <li>
+            <a href="{% url "coaches:coach" coach.id %}">
+                مستر/ {{ coach.CName }}
+                {{ coach.CPhone.national_number }} {{ coach.CPhone.country_code }} +
+            </a>
+    </li>
+
+    </i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half">
+{% endcomment %}

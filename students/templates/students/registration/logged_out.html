@@ -1,0 +1,8 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block nav %}
+    {% include '../compindex/nav.html' with but="دخول" link="student:login" %}
+{% endblock nav %}
+{% block main %}
+    <h2 style="text-align:center;" class="mt-5 alert alert-danger">  تم تسجيل الخروج بنجاح  <a href="{% url 'student:login' %}">تسجيل الدخول</a>  مره اخري</h2>
+{% endblock main %}

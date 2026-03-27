@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+
+{% block main %}
+	<header>
+		<h2 class="head-forms ht">شحن حسابك</h2>
+		<h5 class="head-forms">علماً بان سعر ال 10 نقاط ب 1 جـم</h5>
+    </header>
+    <form id="forms" method="post">
+        {% csrf_token %}
+        <input style="text-align:right;" type='text' name='amount' placeholder="أدخل قيمة عملية الشحن" />
+        
+        <button class="btn-forms btn btn-outline-success text-light" type="submit">أشحن</button>
+    </form>
+{% endblock main %}

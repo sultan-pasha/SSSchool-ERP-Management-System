@@ -1,0 +1,38 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+  منصة ساكاد | الإمتحانات
+{% endblock title %}
+{% block main %}
+<header>
+    <h6>{{ cuser }}</h6>
+    <h1 class="ht">
+        مرحبا بك   {% if user.is_staff and user.first_name%} يا {{user.first_name}} {% elif not user.is_staff %} يا {{cuser.Sfname}} {% endif %}  في منصة ساكاد التعليميه
+    </h1>
+</header>
+<h3>كورسات مشترك فيها:</h3>
+<hr style="height:5px;" class="bg-warning">
+{% if courses %}
+<main class="center"> 
+    <div class="row">
+      {% for cat in courses %}
+        <a class="catlink col-md-3 me-auto ms-auto" style="background-image: url({% if not cat.cimage %} {% static './media/images/secback2.png' %} ) {% else %} {{ cat.cimage.url }} {% endif %}"  href="{% url 'home:lessons' cat.id %}">
+          <div>
+            <h1 class="catname">{{ cat.name }}</h1>
+          </div>
+        </a>
+      {% endfor %}
+      </div>
+  </main>
+  {% else %}
+    <h2 class="alert alert-info">لم تشترك باي مسارات بعد</h2>
+{% endif %}
+{% endblock main %}
+{% block spscript %}
+    <script>
+        window.addEventListener("load", function(){
+            document.querySelectorAll(".nav-link")[0].classList.remove("active");
+            document.querySelectorAll(".nav-link")[4].classList.add("active");
+        });
+    </script>
+{% endblock spscript %}

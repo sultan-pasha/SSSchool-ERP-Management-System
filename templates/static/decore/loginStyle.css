@@ -1,0 +1,132 @@
+body {
+  background-image: url("../deb/media/imgs/signlogin.png") !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+body #login {
+  width: 100% !important;
+}
+body #login .login-box {
+  background-image: url("../deb/media/imgs/studentid.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  position: fixed;
+  inset: 0;
+  top: 9em;
+  left: -4.5em;
+}
+body #login .login-box #loginForm {
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-right: 7em;
+  position: relative;
+  text-align: center;
+  padding-bottom: 3em;
+  padding-top: 2em;
+}
+body #login .login-box #loginForm h3 {
+  padding-top: 8em;
+  margin-bottom: 1em;
+  color: #ae2d84;
+  font-family: TitlesFont;
+  font-size: 1.2em;
+}
+body #login .login-box #loginForm input {
+  width: 10em;
+  text-align: center;
+  border: none;
+  text-decoration: underline;
+  text-underline-offset: 0.4em !important;
+  border: none;
+  outline: none;
+  font-size: 1.4em;
+  font-family: ParaFont;
+  background-color: transparent;
+  color: black;
+}
+body #login .login-box #loginForm input::-moz-placeholder {
+  color: black !important;
+}
+body #login .login-box #loginForm input::placeholder {
+  color: black !important;
+}
+body #login .login-box #loginForm h6 {
+  padding-top: 1em !important;
+  font-family: ActionFont;
+  font-size: 12px;
+  text-decoration: none;
+}
+body #login .login-box #loginForm .stborder {
+  width: -moz-fit-content;
+  width: fit-content;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  background: linear-gradient(to right, #e8457d 0%, #570381 70%);
+  padding: 0.5em;
+  margin: 0 auto;
+}
+body #login .login-box #loginForm .stborder #profilepic {
+  border: none;
+  width: 9em;
+}
+body #login .login-box #loginForm .bi-check2-circle {
+  font-size: 5em;
+  position: absolute;
+  bottom: 0;
+  left: -0.3em;
+  color: green;
+}
+@media screen and (min-width: 400px) {
+  body #login .login-box {
+    position: absolute;
+    width: 30em;
+    transform: translateX(-20em) translateY(-3.5em);
+    padding-top: 2em;
+  }
+  body #login .login-box #loginForm {
+    margin-right: 8em !important;
+  }
+}
+@media screen and (min-width: 400px) and (max-width: 956px) {
+  body #login .login-box {
+    position: absolute;
+    width: 27em;
+    top: 12em;
+    transform: translateX(-4em) translateY(-3em);
+    padding-top: 2em;
+  }
+  body #login .login-box #loginForm {
+    margin-right: 6.6em !important;
+  }
+  body #login .login-box #loginForm h3 {
+    padding-top: 6em !important;
+  }
+}
+@media screen and (min-width: 400px) and (max-width: 500px) {
+  body #login .login-box {
+    width: 25em;
+    transform: translateX(0) translateY(-3em);
+  }
+  body #login .login-box #loginForm {
+    margin-right: 5.7em !important;
+    padding-top: 1em !important;
+  }
+}
+@media screen and (min-width: 361px) and (max-width: 400px) {
+  body #login .login-box #loginForm {
+    margin-right: 7em;
+    padding-top: 3em;
+  }
+}
+@media screen and (max-width: 350px) {
+  body #login .login-box #loginForm {
+    margin-right: 6em;
+    padding-top: 1em;
+  }
+}
+@media screen and (max-width: 500px) {
+  body #login .login-box .bi-check2-circle {
+    left: 2em !important;
+  }
+}

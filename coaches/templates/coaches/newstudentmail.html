@@ -1,0 +1,17 @@
+{% load i18n %}{% autoescape off %}
+    التعليميه SACAD تنوه إدارة منصة
+    عن إشتراك طالب جديد معك أ/ {{ coach.CName }} صاحب اسم المستخدم 
+    {{ user }} 
+    في كورس {{ cat.name }}
+    ولينك واتساب التالي
+    https://wa.me/{{ st.Sphone.country_code }}{{ st.Sphone.national_number }}
+    يرجي تأكيد إشتراك الطالب من خلال الرابط التالي
+    {% block reset_link %}
+    {{ protocol }}://{{ domain }}{% url 'coaches:orderconf' user.id  cat.id  coach.id  %}
+    {% endblock %}
+    لا تنسي اسم المستخدم الخاص بك هو {{ coach.User.username }}
+    {% translate "Thanks for using our site!" %}
+    
+    {% blocktranslate %}The {{ site_name }} team{% endblocktranslate %}
+
+{% endautoescape %}

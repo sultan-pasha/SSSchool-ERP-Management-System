@@ -1,0 +1,86 @@
+let correctanswers=0;
+let wronganswers=0;
+var res = document.getElementById("result");
+var wro = document.getElementById("wrong");
+let pres = document.getElementById("precentage");
+let quest = document.getElementById("questions");
+let present;
+let tasksnumber = 0;
+var btn = document.querySelectorAll(".bttn");
+{% if ask %}
+    var homeform = document.getElementById("homeworkform");
+    var resultt = document.getElementById("resultt");
+    var wrongt = document.getElementById("wrongt");
+    var questt = document.getElementById("questt");
+    var percentt = document.getElementById("percentt");
+    let finalpres=0;
+    var nfinalpres = 0;
+{% endif %}
+{% if quest %}
+    {% for quest in quest %}
+    var quest{{ quest.id }} = document.querySelector(".quest{{quest.id}}");
+    tasksnumber++;
+    {% endfor %}
+{% else %}
+    {% for ask in ask %}
+        var quest{{ ask.id }} = document.querySelector(".quest{{ask.id}}");
+        tasksnumber++;
+    {% endfor %}
+{% endif %}
+quest.value = tasksnumber;
+{% if ask %}
+    questt.innerHTML += tasksnumber;
+{% endif %}
+function answer(i, id, answer) {
+    let pre;
+    var q = "quest" + id
+    {% if quest %}
+        var ask = document.querySelector("."+q)
+    {% else %}
+        var ask = document.querySelectorAll("."+q)[0];
+    {% endif %}
+    var correct = Number(answer) - 3
+    ask.children[1].children[0].children[i-1].style.border="4px solid red"
+    ask.children[1].children[0].children[i-1].style.textDecoration="3px line-through red"
+    if (correct == i){
+        {% if ask %}
+            ask.children[2].classList.add("bi" ,"bi-check-circle-fill");
+        {% endif %}
+        ask.children[1].children[0].children[0].setAttribute("disabled", true);
+        ask.children[1].children[0].children[1].setAttribute("disabled", true);
+        ask.children[1].children[0].children[2].setAttribute("disabled", true);
+        ask.children[1].children[0].children[3].setAttribute("disabled", true);
+        correctanswers ++;
+        res.value = correctanswers;
+        pre = (correctanswers / tasksnumber)*100;
+        finalpres = String(pre).split(".");
+        pres.value =String(finalpres[0])
+        {% if ask %}
+            resultt.innerHTML = correctanswers;
+            nfinalpres = Number(finalpres[0]);
+            pres.value = String(nfinalpres) + "%";
+            percentt.innerHTML = String(nfinalpres) + "%";
+        {% endif %}
+    }
+    else{
+        {% if ask %}
+            ask.children[2].classList.add("bi" ,"bi-x-circle-fill");
+        {% endif %}
+        ask.children[1].children[0].children[0].setAttribute("disabled", true);
+        ask.children[1].children[0].children[1].setAttribute("disabled", true);
+        ask.children[1].children[0].children[2].setAttribute("disabled", true);
+        ask.children[1].children[0].children[3].setAttribute("disabled", true);
+        wronganswers ++;
+        wro.value =  wronganswers;
+        pre = (correctanswers / tasksnumber)*100;
+        finalpres = String(pre).split(".");
+        {% if ask %}
+            wrongt.innerHTML = wronganswers;
+            nfinalpres = Number(finalpres[0]);
+            pres.value = String(nfinalpres) + "%";
+            percentt.innerHTML = String(nfinalpres) + "%";
+        {% else %}
+            pres.value =String(finalpres[0])
+        {% endif %}
+    }
+}

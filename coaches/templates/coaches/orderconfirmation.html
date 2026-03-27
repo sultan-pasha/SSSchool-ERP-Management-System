@@ -1,0 +1,25 @@
+{% extends "index.html" %}
+{% load static %}
+{% block test %}{% endblock test %}
+{% block header %}{% endblock header %}
+{% block main %}
+{% if notallowed %}
+    <header>
+        <h2 class="head-forms ht">غير مخول لك تأكيد حجز الطالب</h2>
+    </header>
+    <h2 class="m-5 alert alert-danger" style="text-align:center">{{ notallowed }}</h2>
+    <a href="{% url 'student:logout' %}?next=/student/login/?next=/coaches/Confirmorder/{{ st.sinit.id }}/{{ cat.id }}/{{ coach.id }}" class="btn btn-outline-danger"> <h3> تسجيل الخروج</h3> </a>
+{% else %}
+        <header>
+            <h2 class="head-forms ht">تأكيد حجز طالب جديد</h2>
+        </header>
+        <h2 class="m-5 alert alert-info" style="text-align:center">يرجي تأكيد حجز الطالب {{ st.Sfname }} {{ st.Smname }} {{ st.Slname }} صاحب اسم المستخدم {{ st.sinit.username }} لكورس {{ cat.name }} مع المدرب {{ coach.CName }} و ذلك بقيمة {{ cat.Cprice }} جنيه مصري و بالضغط علي زر التأكيد التالي أقر بإستلامي قيمة إشتراك الكورس و تأكيد حجز الطالب.</h2>
+        <a href="{% url "coaches:approveorder" st.id cat.id %}" class="btn btn-outline-success"> <h3> تأكيد الحجز و إقرار الإستلام </h3> </a>
+        <a href="#" class="btn btn-outline-danger"> <h3> إلغاء إشتراك الطالب </h3> </a>
+    {% endif %}
+{% endblock main %}
+
+
+{% comment %} http://127.0.0.1:8000/coaches/Confirmorder/14/1/1 {% endcomment %}
+
+{% comment %} ?next=Confirmorder/14/1/1 {% endcomment %}

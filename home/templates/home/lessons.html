@@ -1,0 +1,85 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+  منصة ساكاد | محاضرات فرع ال{{ cat.name }}
+{% endblock title %}
+{% block spstyle %}
+  <link rel="stylesheet" href="{% static './deb/plugins/styles/flipster.min.css' %}">
+  <link rel="stylesheet" href="{% static './decore/tracks.css' %}">
+  <link rel="stylesheet" href="{% static './decore/lect.css' %}">
+{% endblock spstyle %}
+{% block main %}
+{% include "./catsmain.html" %}
+<div class="lessons mt-3">
+    <u>
+        <h3>محاضرات مادة {{ cat.name }}</h3>
+    </u>
+    <div class="car-container row justify-content-between me-auto le">
+        {% if les %}
+            {% for les in les %}
+                <div class="mt-2 col-lg-5 col-11" id="card">
+                    <a href="{% url "home:lesson" les.id les.catname.id %}"> 
+                        <div class="card-data">
+                            <div class="card-data-right"> <img id="cardImg" src="{% if les.limg %} {{ les.limg.url }} {% else %} {% static './deb/media/imgs/match poster lesson.png' %} {% endif %}" width="100">
+                                <u>
+                                    <h4>{{ les.name }}</h4>
+                                </u>
+                            </div>
+                            <div class="card-actions">
+                                <h6 class="le-card-pup">{% if les.Lviews %}{{ les.Lviews }} {% else %} 0 {% endif %}<span class="bi bi-eye-fill"></span></h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h2 class="alert alert-info">لم يتم نشر اي محاضرات بعد</h2>
+        {% endif %}
+    </div>
+</div>
+{% endblock main %}
+
+{% block spscript %}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="{% static './js/index.js' %}"> </script>
+<script src="{% static './deb/plugins/scripts/flipster.min.js' %}"> </script>
+<script>
+  var mainitem = document.querySelectorAll(".nav-item")[1]
+  mainitem.classList.add("nav-active")
+
+  {% for cats in cats %}
+  var watchedlescat = 0
+  var lescat = 0
+  {% for wated in cuser.watchedlecs.all %}
+    {% if wated.catname == cats %}
+      watchedlescat++
+    {% endif %}
+  {% endfor %}
+  {% for les in all %}
+    {% if les.catname == cats %}
+      lescat++
+    {% endif %}
+  {% endfor %}
+  var percentage = (watchedlescat / lescat) * 100
+  var ratepart = document.querySelectorAll(".rate{{ cats.id }}")
+  var rate = percentage/100 * 5
+  if (isNaN(rate)) {
+    rate = 0
+  }
+  if (isNaN(percentage)) {
+    percentage = 0
+  }
+  var prog = document.getElementsByClassName("sas-progress{{ cats.id }}");
+  ratepart[0].innerHTML = percentage + "%";
+  console.log(rate.toFixed(0))
+  for (let i = 0; i < rate.toFixed(0); i++) {
+    prog[0].innerHTML += "<div class='progress progress-active'></div>"
+  }
+
+  for (let i = 0; i < 5-rate.toFixed(0); i++) {
+    prog[0].innerHTML += "<div class='progress'></div>"
+  }
+  
+{% endfor %}
+</script>
+{% endblock spscript %}

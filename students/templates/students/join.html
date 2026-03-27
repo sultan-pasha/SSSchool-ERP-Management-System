@@ -1,0 +1,95 @@
+{% extends "index.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block spstyle %}
+    <link rel="stylesheet" href="{% static './decore/Signup.css' %}">
+{% endblock spstyle %}
+{% block nav %}
+    {% include './compindex/nav.html' with but="دخول" link="student:login" %}
+{% endblock nav %}
+{% block main %}
+  <div class="main">
+    {% if form.errors %}
+      {% if form.errors|length < 2 %}
+        {% if form.non_field_errors %}
+          <div class="message alert alert-danger" role="alert"> {{ form.non_field_errors }} </div>
+          {% else %}
+          <div class="message alert alert-danger" role="alert"> {{ form.password2.errors }} </div>
+        {% endif %}
+      {% else %}
+        {% for field in form %}
+          {% for error in field.errors %}
+            <div class="message alert alert-danger" role="alert">بيانات {{ field.label }} بها خطأ: {{ error }} </div>
+          {% endfor %}
+        {% endfor %}
+      {% endif %}
+    {% endif %}
+
+    {% if stuf.errors %}
+      {% for field in stuf %}
+        {% for error in field.errors %}
+        <div class="message alert alert-danger" role="alert"> بيانات {{ field.label }} بها خطأ: {{ error }} </div>
+        {% endfor %}
+        {% endfor %}
+    {% endif %} 
+
+    <form id="SignForm" method="POST">
+        {% csrf_token %}
+      <div class="sign">
+        <div class="sign-form">
+          <div class="stdata">
+            <h3>بطاقة تسجيل   </h3>
+            {% if not nameerr %}
+              {{ request.POST.name }}
+              <input class="mt-2" name="name" type="username" required placeholder="اسم الطالب ثلاثي" value= "{{ request.POST.name }}" ><br>
+              {% else %}
+              اسم الطالب غير ثلاثي: {{ nameerr.value }}
+              <input class="mt-2 bg-danger" name="name" type="username" required placeholder="يرجي كتابة اسم الطالب ثلاثي" value= "{{ request.POST.name }}"><br>
+            {% endif %}
+            {% if not form.email.errors %}
+              <input class="mt-2" name="email" type="email" required placeholder="البريد الإلكتروني" value="{{ form.data.email }}"><br>
+              {% else %}
+              <input class="mt-2 bg-danger" name="email" type="email" required placeholder={{ form.email.errors }} value="{{ form.data.email }}"><br>
+            {% endif %}
+            <label for="email"> 
+              <h6> <span class="whint">(<span class="hint">المستخدم في إستعادة كلمة المرور حال نسيانها<span class="whint">) </span></span></span></h6>
+            </label><br>
+            <div class="pass-box">
+              
+                {% if not form.password1.errors %}
+                  <input type="password" name="password1" required placeholder="كلمة المرور" name="pass" value="{{ form.password1.value|default_if_none:"" }}">
+                {% else %}
+                  <input class="bg-danger" type="password" name="password1" required placeholder="كلمة المرور" name="pass" value="{{ form.password1.value }}">
+                {% endif %}
+                {% if not form.password2.errors %}
+                <input type="password" name="password2" required placeholder="تأكيد كلمة المرور" name="pass2" value="{{ form.password2.value|default_if_none:"" }}">
+                {% else %}
+                <input class="bg-danger" type="password" name="password2" required placeholder="تأكيد كلمة المرور" name="pass2" value={{ form.password2.value }}>
+                {% endif %}
+              </div>
+              <br>
+          </div>
+          <div class="stborder">
+            <div id="profile"><img id="profilepic" src="https://images.unsplash.com/photo-1640951613773-54706e06851d?w=500&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHVzZXJ8ZW58MHx8MHx8fDA%3D" alt=""></div>
+            {% if not form.username.errors %}
+              <input class="mt-2" name="username" type="username" required placeholder="اسم المستخدم" value="{{ form.username.value|default_if_none:"" }}">
+            {% else %}
+              <input class="mt-2 bg-danger" name="username" type="username" required placeholder="اسم المستخدم" value="{{ form.username.value }}">
+            {% endif %}
+            <label for="user"> 
+              <h6> <span class="whint">(<span class="hint">المستخدم في تسجيل الدخول<span class="whint">)</span></span></span></h6>
+            </label><br>
+          </div>
+        </div>
+        <div class="sign-last">
+          <button class="bi bi-check2-circle btn" type="submit"></button>
+          {% if not stuf.Sidnumber.errors %}
+          <input type="number" required placeholder="الرقم القومي" name="Sidnumber" value={{ stuf.Sidnumber.value }}>
+          {% else %}
+          <input class="bg-danger" type="number" required placeholder="الرقم القومي" name="Sidnumber" value={{ stuf.Sidnumber.value }}>
+          {% endif %}
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock main %}

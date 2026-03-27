@@ -1,0 +1,70 @@
+.homewrep-container .homewrep .chart {
+  position: relative;
+  width: 50px;
+  height: fit-content;
+  line-height: 200px;
+}
+.chart {
+  font-size: 40px;
+}
+.chart canvas {
+  position: absolute;
+  top: 0%;
+  left: -175%;
+  width: 200px;
+  height: 200px;
+  border-radius:50%;
+  transition: 1s;
+  color: #67cfff;
+}
+.homewrep-container{
+  right: 0%;
+  margin: 0% auto;
+  width: fit-content;
+}
+.repbox{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.np{
+  color: black;
+}
+/* homeworkreport.html */
+
+.percent-tit{
+  font-size: 50px;
+  text-align: center;
+  margin: 0% auto;
+}
+
+table{
+  text-align: center;
+}
+
+th{
+  border: 1px white solid;
+}
+td{
+  border: 1px white solid;
+}
+
+
+
+@media screen and (max-width:804px) {
+  .repbox{
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+  .box-info-student{
+    margin-top: 5%;
+    width: 100%;
+  }
+  .np{
+    font-size: 80%;
+    width: 100%;
+  }
+}

@@ -1,0 +1,1 @@
+var brand=document.querySelector(".nav-brand"),nav=document.querySelector("nav"),navbtn=document.querySelector(".navbtn");brand.addEventListener("click",function(){nav.style.display="none",navbtn.style.display="inline"}),navbtn.addEventListener("click",function(){nav.style.display="flex",navbtn.style.display="none"});
